@@ -1,0 +1,21 @@
+<div class="auth-container">
+    <h2>Registro / Inicio de Sesión</h2>
+  
+    <form [formGroup]="authForm" class="form">
+      <div>
+        <label class="form-child-label">Nombre de usuario</label>
+        <input formControlName="name" type="text" class="form-control" />
+      </div>
+  
+      <div>
+        <label class="form-child-label">Contraseña</label>
+        <input formControlName="password" type="password" class="form-control" />
+      </div>
+  
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  
+      <button class="form-child" (click)="onRegister()">Registrarse</button>
+      <button class="form-child" (click)="onLogIn()">Iniciar sesión</button>
+    </form>
+  </div>
+  
