@@ -1,1 +1,26 @@
-<p>my-currencys works!</p>
+<div id="body">
+    <app-menu id="menu"></app-menu>
+
+    <div id="content">
+        <div id="contentChild">
+            <p>Mi Divisa</p>
+            <form [formGroup]="userDataForm" class="form">
+                <div>
+                  <label class="form-child-label">Divisa actual</label>
+                  <input formControlName="currency" type="text" class="form-control" />
+                </div>
+            
+                <div>
+                  <label class="form-child-label">Cantidad</label>
+                  <input formControlName="amount" type="text" class="form-control" />
+                </div>
+
+                <button class="form-child" (click)="save()">Guardar datos</button>
+            </form>
+
+
+            <apx-chart *ngIf="chartOptions[currency]" [series]="chartOptions[currency].series" [chart]="chartOptions[currency].chart" [xaxis]="chartOptions[currency].xaxis" [title]="chartOptions[currency].title">
+            </apx-chart>
+        </div>
+    </div>
+</div>

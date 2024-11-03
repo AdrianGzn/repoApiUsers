@@ -1,65 +1,86 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/user';
-import { map } from 'rxjs/operators';
+import { User, ApiResponse } from '../models/user';
+import { map, catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'http://localhost:3000/api/users/';
 
   constructor(private http: HttpClient) {}
 
   register(name: string, password: string): Observable<any> {
-    let currency = '';
-    let amount = 0;
-    const user: User = { name, password, currency, amount };
+    const user: User = { name, password, currency: '', amount: 0 };
     localStorage.setItem('user', JSON.stringify(user));
 
-    return this.http.post(this.apiUrl, user);
+    return this.http.post(`${this.apiUrl}/post`, user).pipe(
+      catchError(error => {
+        console.error('Error al registrar el usuario', error);
+        throw error;
+      })
+    );
   }
 
   login(name: string, password: string): Observable<User | null> {
-    return this.http.get<{ status: boolean, data: User[] }>(`${this.apiUrl}`).pipe(
+    return this.http.get<ApiResponse>(this.apiUrl).pipe(
       map(response => {
-        let user: User|null = null;
-
-        for (let user of response.data) {
-          if (user.name === name && user.password === password) {
-            user = { name: user.name, password: user.password, currency: user.currency, amount: user.amount };
-            break;
-          }
+        const users = response.data;
+        const user = users.find(user => user.name === name && user.password === password) || null;
+        
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
         }
         
-        if (user != null) {
-          localStorage.setItem('user', JSON.stringify(user));
-          return user;
-        } else {
-          return null;
-        }
+        return user;
+      }),
+      catchError(error => {
+        console.error('Error al obtener todos los usuarios', error);
+        throw error;
       })
-    )
-  }
-
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}`, user);
+    );
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}`);
+    return this.http.get<User[]>(this.apiUrl).pipe(
+      catchError(error => {
+        console.error('Error al obtener todos los usuarios', error);
+        throw error;
+      })
+    );
   }
 
   getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/${id}`);
+    return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
+      catchError(error => {
+        console.error(`Error al obtener el usuario con ID ${id}`, error);
+        throw error;
+      })
+    );
   }
 
-  updateUser(id: string, user: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+  updateUser(id: string, user: User): Observable<User> {
+    return this.http.put<{status: boolean, data: any}>(`${this.apiUrl}/${id}`, user).pipe(
+      tap((response) => {
+        let userData: any = {id_user: response.data.id ,name: response.data.name, password: response.data.password, currency: response.data.currency, amount: response.data.amount} 
+        localStorage.setItem('user', JSON.stringify(userData));      
+      }),
+      map(response => response.data),
+      catchError(error => {
+        console.error(`Error al actualizar el usuario con ID ${id}`, error);
+        throw error;
+      })
+    );
   }
 
-  deleteUser(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
+      catchError(error => {
+        console.error(`Error al eliminar el usuario con ID ${id}`, error);
+        throw error;
+      })
+    );
   }
 }

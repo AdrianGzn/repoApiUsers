@@ -61,7 +61,7 @@ export class GeneralCurrencysComponent implements OnInit {
         categories: data.map(d => d.date)
       },
       title: {
-        text: `Historical Values of ${currency} against USD`,
+        text: `Historial de valores de ${currency} en USD`,
         align: 'left'
       }
     };

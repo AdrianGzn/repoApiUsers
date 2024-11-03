@@ -13,6 +13,7 @@ export class CurrencysService {
 
   getCurrencyForDates(dateStart: string, dateEnd: string, base: string, symbols: string): Observable<any> {
     let urlModified = `${this.url}/${dateStart}..${dateEnd}?base=${base}&symbols=${symbols}`;
+    
     return this.httpClient.get<CurrencyHistorical>(urlModified).pipe(
       catchError((error: Error) => {return of('Error handled: ' + error.message)})
     );
