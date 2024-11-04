@@ -6,7 +6,6 @@
             <p>Divisas en general</p>
             <div id="cards">
                 <div *ngFor="let currency of currencies" id="card">
-                    <h2>{{ currency }} Exchange Rate</h2>
                     <apx-chart *ngIf="chartOptions[currency]" [series]="chartOptions[currency].series" [chart]="chartOptions[currency].chart" [xaxis]="chartOptions[currency].xaxis" [title]="chartOptions[currency].title">
                     </apx-chart>
                 </div>

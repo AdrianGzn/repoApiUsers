@@ -1,13 +1,15 @@
-#body{
+#body {
     width: 100%;
     height: 100vh;
     display: flex;
     margin: 0;
     padding: 0;
     background-color: #26374b;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
 }
 
-#menu{
+#menu {
     width: 25%;
     height: 100%;
     display: flex;
@@ -16,17 +18,16 @@
     background-color: #203040;
 }
 
-#content{
+#content {
     width: 75%;
     height: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     background-color: #203040;
 }
 
-#contentChild{
+#contentChild {
     width: calc(100% - 65px);
     height: calc(100% - 65px);
     background-color: #26374b;
@@ -34,44 +35,71 @@
     padding: 30px;
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
+    text-align: center;
 }
 
-#contentChild p{
+#contentChild p {
     font-size: 30px;
-    margin: 0;
+    margin-bottom: 20px;
+    color: #ffffff;
 }
 
-#containerCalculator{
-    width: 90%;
-    margin: 10px;
-    height: auto;
+.form {
+    width: 100%;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
+    gap: 15px;
 }
 
-.campo{
+.campo {
     display: flex;
     flex-direction: column;
     margin: 20px 0;
 }
 
-select{
-    color: #203040;
+.form-child-label {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 5px;
+    text-align: left;
 }
 
-option{
-    color: #203040;
-}
-
-input{
-    color: #203040;
-}
-
-button{
+select, .form-child {
     width: 100%;
-    height: 35px;
-    background-color: #26374b;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border: 0;
+    padding: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #203040;
+    font-size: 16px;
+}
+
+button.form-child {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #3c5a75;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+button.form-child:hover {
+    background-color: #4f7a9b;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+option {
+    color: #203040;
 }
